@@ -20,9 +20,7 @@ class ViewController: UIViewController {
     }
     /// The current authentication state.
     var state = AuthenticationState.loggedout {
-        didSet{
-            btnAuth.isSelected = state == .loggedin  // The button text changes on selected.
-            lblMessage.text = state == .loggedin ? "Authenticate successfully" : ""
+        didSet{ 
         }
     }
     override func viewDidLoad() {
@@ -59,6 +57,12 @@ class ViewController: UIViewController {
                         DispatchQueue.main.async { [unowned self] in
                             self.state = .loggedin
                         }
+                        
+                        DispatchQueue.main.async { [unowned self] in
+                                                   let alert = UIAlertController(title: nil, message: "Authenticate successfully" , preferredStyle: .alert)
+                                                   alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                                                   self.present(alert, animated: true, completion: nil)
+                                               }
                         
                     } else {
                         print(error?.localizedDescription ?? "Failed to authenticate")
